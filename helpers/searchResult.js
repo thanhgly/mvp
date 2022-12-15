@@ -1,0 +1,36 @@
+let Books = {
+  _data: {},
+
+  items: () => {
+    return Object.values(Books._data);
+  },
+
+  add: (book) => {
+    return new Promise((res, rej) => {
+      Books._data[book.id] = Books.conform(book);
+      res(Books.items());
+    });
+  },
+
+  update: (books) => {
+    let addBooks = books.map((book) => {
+      return Books.add(book);
+    });
+    return Promise.all(addBooks);
+  },
+
+  conform: (book) => {
+    let bk = {};
+    bk._id = book.id;
+    bk.title = book.volumeInfo.title;
+    bk.authors = book.volumeInfo.authors.join(', ');
+    bk.categories = book.volumeInfo.categories.join(', ');
+    bk.publisher = book.volumeInfo.publisher;
+    bk.publishedDate = book.volumeInfo.publishedDate;
+    bk.description = book.volumeInfo.description;
+    bk.link = book.volumeInfo.previewLink;
+    return bk;
+  }
+};
+
+module.exports = {Books};
