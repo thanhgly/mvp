@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "webpack-react": "webpack --watch"
+    "webpack-react": "webpack --watch",
+    "server": "npx nodemon server/index.js"
   },
   "repository": {
     "type": "git",
