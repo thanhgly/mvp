@@ -10,6 +10,7 @@ const bookSchema = mongoose.Schema({
   publisher: String,
   publishedDate: Date,
   description: String,
+  rating: Number,
   link: String
 });
 

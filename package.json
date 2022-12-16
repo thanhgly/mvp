@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "webpack-react": "webpack --watch",
     "server": "npx nodemon server/index.js"
   },
