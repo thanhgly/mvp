@@ -11,7 +11,7 @@ const port = 3000;
 app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use(express.json());
 
-app.post('/', (req, res) => {
+app.post('/books', (req, res) => {
   var title = req.body.title;
   getBooks(title)
     .then((books) => {
@@ -25,16 +25,16 @@ app.post('/', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(500);
+      res.sendStatus(500);
     });
 });
 
-app.post('/shelf', (req, res) => {
+app.post('/save', (req, res) => {
   let book = req.body.book;
   db.storeBook(book)
-    .then(() => {
+    .then((r) => {
       console.log('Book\'s stored!');
-      res.sendStatus(201);
+      res.status(201).json(r);
     })
     .catch((err) => {
       console.error(err);
@@ -42,7 +42,7 @@ app.post('/shelf', (req, res) => {
     });
 });
 
-app.get('/', (req, res) => {
+app.get('/books', (req, res) => {
   db.Book.find().sort({rating: 1}).limit(10)
     .then((books) => {
       res.send(books);
@@ -55,4 +55,4 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
-})
+});

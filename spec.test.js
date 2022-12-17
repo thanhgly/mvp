@@ -45,9 +45,9 @@ describe("server side", function() {
   });
 
   test('testing POST request to index', function(done) {
-    axios.post('http://localhost:3000/', {title: 'The Witcher'})
+    axios.post('http://localhost:3000/books', {title: 'The Witcher'})
       .then((res) => {
-        expect(res.data[2].title).toEqual('The Witcher Volume 1');
+        expect(res.data[2].title).toEqual('The World of the Witcher');
         done();
       })
       .catch((err) => {
@@ -55,23 +55,23 @@ describe("server side", function() {
       });
   });
 
-  test('testing POST request to /shelf', function(done) {
-    axios.post('http://localhost:3000/', {title: 'The Witcher'})
+  test('testing POST request to /save', function(done) {
+    axios.post('http://localhost:3000/books', {title: 'Game of Thrones'})
       .then((res) => {
-        let book = res.data[2];
-        return axios.post('http://localhost:3000/shelf', {book});
+        console.log(res.data);
+        let book = res.data[0];
+        return axios.post('http://localhost:3000/save', {book});
       })
       .then(() => {
         return Book.find();
       })
       .then((res) => {
-        expect(res[0].title).toEqual('The Witcher Volume 1');
-
+        expect(res[0].authors).toEqual('George R. R. Martin');
         done();
       })
       .catch((err) => {
         console.error(err);
       })
-  })
+  });
 
 });

@@ -38,13 +38,14 @@ let conform = (book) => {
   let bk = {};
   bk._id = book.id;
   bk.title = book.volumeInfo.title;
-  bk.authors = book.volumeInfo.authors.join(', ') || '';
-  bk.categories = book.volumeInfo.categories ? book.volumeInfo.categories.join(', ') : '';
+  bk.authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : null;
+  bk.categories = book.volumeInfo.categories ? book.volumeInfo.categories.join(', ') : null;
   bk.publisher = book.volumeInfo.publisher;
   bk.publishedDate = book.volumeInfo.publishedDate;
   bk.description = book.volumeInfo.description;
   bk.rating = book.volumeInfo.averageRating || 0;
   bk.link = book.volumeInfo.previewLink;
+  bk.image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'No thumbnail';
   return bk;
 }
 

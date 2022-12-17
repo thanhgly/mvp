@@ -3,7 +3,8 @@ const axios = require('axios');
 // const GG_API_KEY = require('../config.js').GG_API_KEY;
 
 const getBooks = (title) => {
-  return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${title}`)
+  let terms = title.split(' ').join('+');
+  return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${terms}&maxResults=15&langRestrict=en&printType=books`)
     .then((response) => {
       return response.data.items;
     })
