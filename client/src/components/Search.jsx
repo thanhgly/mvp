@@ -28,7 +28,7 @@ const Search = (props) => {
       <button onClick={search}> Find </button>
       <div id='result-list'>
         Number of book found: {result.length}
-        <SearchResultList result={result} onSave={props.onSave} setBooks={props.setBooks}/>
+        <SearchResultList result={result} onSave={props.onSave} setBooks={props.setBooks} fetchBooks={props.fetchBooks}/>
       </div>
     </div>
   )

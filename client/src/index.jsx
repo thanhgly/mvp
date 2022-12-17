@@ -3,11 +3,40 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import BookList from './components/BookList.jsx';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 const App = (props) => {
 
+  useEffect(() => {
+    fetch()
+      .then((data) => {
+        setBooks(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }, []);
+
   const [books, setBooks] = useState([]);
+
+  const fetch = (lim) => {
+    let limit = lim || 15;
+    return new Promise((res, rej) => {
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:3000/books',
+        data: {limit: limit},
+        dataType: 'json',
+        contentType: 'application/json',
+        success: (data) => {
+          res(data);
+        },
+        error: (err) => {
+          rej(err);
+        }
+      })
+    });
+  };
 
   const search = (term) => {
     let data = {title: term};
@@ -41,7 +70,7 @@ const App = (props) => {
           console.log('Save successful!');
           res(response);
         },
-        error: (x, t, err) => {
+        error: (err) => {
           rej(err);
         }
       });
@@ -53,9 +82,9 @@ const App = (props) => {
     <div>
       <h1>The Bookshelf</h1>
 
-      <Search onSearch={search.bind(this)} onSave={save} setBooks={setBooks}/>
+      <Search onSearch={search.bind(this)} onSave={save} setBooks={setBooks} fetchBooks={fetch} setBooks={setBooks}/>
 
-      <BookList books={books}/>
+      <BookList books={books} setBooks={setBooks} fetch={fetch}/>
     </div>
   )
 }

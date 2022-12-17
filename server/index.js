@@ -4,7 +4,6 @@ const conform = require('../helpers/conform.js').conform;
 const getBooks = require('../helpers/api.js').getBooks;
 const db = require('../database/index.js');
 
-
 const app = express();
 const port = 3000;
 
@@ -43,7 +42,8 @@ app.post('/save', (req, res) => {
 });
 
 app.get('/books', (req, res) => {
-  db.Book.find().sort({rating: 1}).limit(10)
+  let lim = req.query.limit;
+  db.Book.find().sort({rating: -1}).limit(lim)
     .then((books) => {
       res.send(books);
     })
